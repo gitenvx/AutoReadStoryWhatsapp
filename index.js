@@ -1001,7 +1001,6 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
 
     if (autoKickStory) {
       if (msg.message.groupStatusMentionMessage && !msg.key.fromMe) {
-        console.log(msg);
         const groupId = msg.key.remoteJid;
         const participant =
           msg.key.participantAlt && !msg.key.participantAlt.includes("@lid")
@@ -1009,7 +1008,6 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
             : msg.key.participant;
 
         const groupMetadata = await sock.groupMetadata(groupId);
-        console.log(groupMetadata);
         const groupName = groupMetadata.subject;
         const botNumber = sock.user.id.split(":")[0] + "@s.whatsapp.net";
         const isAdmin = groupMetadata.participants.some(
