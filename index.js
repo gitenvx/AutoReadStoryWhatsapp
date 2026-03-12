@@ -23,7 +23,7 @@ function logCuy(message, type = "green") {
   console.log(
     `\n${now.format(" dddd ").bgRed}${
       now.format(" D MMMM YYYY ").bgYellow.black
-    }${now.format(" HH:mm:ss ").bgWhite.black}\n`
+    }${now.format(" HH:mm:ss ").bgWhite.black}\n`,
   );
   console.log(`${message.bold[type]}`);
 }
@@ -79,7 +79,7 @@ async function connectToWhatsApp() {
 
     logCuy(
       "Halo sepertinya kamu belum login, Mau login wangsaf pakai pairing code?\nSilahkan balas dengan (y/n)\nketik y untuk setuju atau ketik n untuk login menggunakan qrcode",
-      "cyan"
+      "cyan",
     ); // pesan untuk yang menggunakan panel
 
     const askPairingCode = () => {
@@ -90,7 +90,7 @@ async function connectToWhatsApp() {
           if (answer.toLowerCase() === "y" || answer.trim() === "") {
             logCuy(
               "Wokeh kalau gitu silahkan masukkan nomor wangsafmu!\ncatatan : awali dengan 62 contoh 628123456789",
-              "cyan"
+              "cyan",
             ); // pesan untuk yang menggunakan panel
             const askWaNumber = () => {
               rl.question(
@@ -99,28 +99,28 @@ async function connectToWhatsApp() {
                   if (!/^\d+$/.test(waNumber)) {
                     logCuy(
                       "Nomor harus berupa angka!\nSilakan masukkan nomor wangsaf kembali!.",
-                      "red"
+                      "red",
                     );
                     askWaNumber();
                   } else if (!waNumber.startsWith("62")) {
                     logCuy(
                       "Nomor harus diawali dengan 62!\nContoh : 628123456789\nSilakan masukkan nomor wangsaf kembali!.",
-                      "red"
+                      "red",
                     );
                     askWaNumber();
                   } else {
                     const code = await sock.requestPairingCode(
                       waNumber,
-                      "AUTOREAD"
+                      "AUTOREAD",
                     );
                     console.log(
                       "\nCek notifikasi wangsafmu dan masukin kode login wangsaf:"
                         .blue.bold,
-                      code.bold.red
+                      code.bold.red,
                     );
                     rl.close();
                   }
-                }
+                },
               );
             };
             askWaNumber();
@@ -128,7 +128,7 @@ async function connectToWhatsApp() {
             useCode = false;
             logCuy(
               "Buka wangsafmu lalu klik titik tiga di kanan atas kemudian klik perangkat tertaut setelah itu Silahkan scan QR code dibawah untuk login ke wangsaf",
-              "cyan"
+              "cyan",
             );
             connectToWhatsApp();
             rl.close();
@@ -136,7 +136,7 @@ async function connectToWhatsApp() {
             logCuy('Input tidak valid. Silakan masukkan "y" atau "n".', "red");
             askPairingCode();
           }
-        }
+        },
       );
     };
 
@@ -154,7 +154,7 @@ async function connectToWhatsApp() {
       } else {
         logCuy(
           "Nampaknya kamu telah logout dari wangsaf, silahkan login ke wangsaf kembali!",
-          "red"
+          "red",
         );
         fs.rmdirSync(sessionPath, { recursive: true, force: true });
         connectToWhatsApp();
@@ -185,12 +185,12 @@ Ketik *#menu* untuk melihat menu perintah yang tersedia.
 SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
       console.log(
         `kamu berhasil login dengan nomor:`.green.bold,
-        displayedLoggedInNumber.yellow.bold
+        displayedLoggedInNumber.yellow.bold,
       );
       console.log(
         "Bot sudah aktif!\n\nSelamat menikmati fitur auto read story whatsapp by"
           .green.bold,
-        "github.com/Jauhariel\n".red.bold
+        "github.com/Jauhariel\n".red.bold,
       );
 
       if (!welcomeMessage) {
@@ -217,30 +217,30 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
     msg.type = msg.message.imageMessage
       ? "imageMessage"
       : msg.message.videoMessage
-      ? "videoMessage"
-      : msg.message.audioMessage
-      ? "audioMessage"
-      : msg.message.extendedTextMessage
-      ? "extendedTextMessage"
-      : Object.keys(msg.message)[0];
+        ? "videoMessage"
+        : msg.message.audioMessage
+          ? "audioMessage"
+          : msg.message.extendedTextMessage
+            ? "extendedTextMessage"
+            : Object.keys(msg.message)[0];
 
     msg.text =
       msg.type === "conversation"
         ? msg.message.conversation
         : msg.type === "extendedTextMessage"
-        ? msg.message.extendedTextMessage.text
-        : msg.message[msg.type]?.caption || "";
+          ? msg.message.extendedTextMessage.text
+          : msg.message[msg.type]?.caption || "";
 
     msg.isQuoted =
       msg.type === "extendedTextMessage"
         ? msg.message.extendedTextMessage.contextInfo?.quotedMessage
         : msg.type === "imageMessage"
-        ? msg.message.imageMessage.contextInfo?.quotedMessage
-        : msg.type === "videoMessage"
-        ? msg.message.videoMessage.contextInfo?.quotedMessage
-        : msg.type === "audioMessage"
-        ? msg.message.audioMessage.contextInfo?.quotedMessage
-        : null;
+          ? msg.message.imageMessage.contextInfo?.quotedMessage
+          : msg.type === "videoMessage"
+            ? msg.message.videoMessage.contextInfo?.quotedMessage
+            : msg.type === "audioMessage"
+              ? msg.message.audioMessage.contextInfo?.quotedMessage
+              : null;
 
     msg.quoted = msg.isQuoted
       ? msg.message.extendedTextMessage?.contextInfo ||
@@ -268,7 +268,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
             {
               text: `Nomor harus diisi.\ncontoh ketik :\n\`${commandname} blacklist 628123456789\`\n\nArgumen yang tersedia:\n\n\`${commandname} blacklist nomornya\`\nuntuk ${type} nomor ${sc} blacklist\n\n\`${commandname} whitelist nomornya\`\nuntuk ${type} nomor ${sc} whitelist`,
             },
-            { quoted: msg }
+            { quoted: msg },
           );
           return false;
         }
@@ -278,20 +278,20 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
             {
               text: `Nomor harus berupa angka.\ncontoh ketik :\n\`${commandname} blacklist 628123456789\`\n\nArgumen yang tersedia:\n\n\`${commandname} blacklist nomornya\`\nuntuk ${type} nomor ${sc} blacklist\n\n\`${commandname} whitelist nomornya\`\nuntuk ${type} nomor ${sc} whitelist`,
             },
-            { quoted: msg }
+            { quoted: msg },
           );
           return false;
         }
-        if (!data.startsWith("62")) {
-          await sock.sendMessage(
-            `${loggedInNumber}@s.whatsapp.net`,
-            {
-              text: `Nomor harus diawali dengan 62.\ncontoh ketik :\n\`${commandname} blacklist 628123456789\`\n\nArgumen yang tersedia:\n\n\`${commandname} blacklist nomornya\`\nuntuk ${type} nomor ${sc} blacklist\n\n\`${commandname} whitelist nomornya\`\nuntuk ${type} nomor ${sc} whitelist`,
-            },
-            { quoted: msg }
-          );
-          return false;
-        }
+        // if (!data.startsWith("62")) {
+        //   await sock.sendMessage(
+        //     `${loggedInNumber}@s.whatsapp.net`,
+        //     {
+        //       text: `Nomor harus diawali dengan 62.\ncontoh ketik :\n\`${commandname} blacklist 628123456789\`\n\nArgumen yang tersedia:\n\n\`${commandname} blacklist nomornya\`\nuntuk ${type} nomor ${sc} blacklist\n\n\`${commandname} whitelist nomornya\`\nuntuk ${type} nomor ${sc} whitelist`,
+        //     },
+        //     { quoted: msg }
+        //   );
+        //   return false;
+        // }
         return true;
       }
 
@@ -304,7 +304,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                 {
                   text: `mana argumennya ?\ncontoh ketik : \`#on autolike\`\n\nArgumen yang tersedia:\n\n\`#on autoread\`\nuntuk mengaktifkan fitur autoread story\n\n\`#on autolike\`\nuntuk mengaktifkan fitur autolike story\n\n\`#on dlmedia\`\nuntuk mengaktifkan fitur download media(foto,video, dan audio) dari story\n\n\`#on sensornomor\`\nuntuk mengaktifkan sensor nomor\n\n\`#on antitelpon\`\nuntuk mengaktifkan anti-telpon\n\n\`#on kickstory\`\nuntuk mengaktifkan auto kick story grup`,
                 },
-                { quoted: msg }
+                { quoted: msg },
               )
             : msg.args.forEach(async (arg) => {
                 switch (arg.trim().toLowerCase()) {
@@ -315,7 +315,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Auto Read Status aktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "autolike":
@@ -325,7 +325,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Auto Like Status aktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "dlmedia":
@@ -333,12 +333,12 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("downloadMediaStatus", true);
                     logCuy(
                       "Kamu mengaktifkan fitur Download Media Status",
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Download Media Status aktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "sensornomor":
@@ -348,7 +348,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Sensor Nomor aktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "antitelpon":
@@ -358,7 +358,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Anti-telpon aktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "kickstory":
@@ -366,12 +366,12 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("autoKickStory", true);
                     logCuy(
                       "Kamu mengaktifkan fitur auto kick tag grup di story",
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Auto Kick Tag Grup di Story aktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   default:
@@ -380,7 +380,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `Argumen tidak valid: ${arg}. Pilihan yang tersedia: autoread, autolike, dlmedia, sensornomor, kickstory dan antitelpon`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                 }
@@ -393,7 +393,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                 {
                   text: `mana argumennya ?\ncontoh ketik : \`#off autolike\`\n\nArgumen yang tersedia:\n\n\`#off autoread\`\nuntuk menonaktifkan fitur autoread story\n\n\`#off autolike\`\nuntuk menonaktifkan fitur autolike story\n\n\`#off dlmedia\`\nuntuk menonaktifkan fitur download media(foto,video, dan audio) dari story\n\n\`#off sensornomor\`\nuntuk menonaktifkan sensor nomor\n\n\`#off antitelpon\`\nuntuk menonaktifkan anti-telpon\n\n\`#off kickstory\`\nuntuk menonaktifkan auto kick story grup`,
                 },
-                { quoted: msg }
+                { quoted: msg },
               )
             : msg.args.forEach(async (arg) => {
                 switch (arg.trim().toLowerCase()) {
@@ -404,7 +404,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Auto Read Status nonaktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "autolike":
@@ -414,7 +414,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Auto Like Status nonaktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "dlmedia":
@@ -422,12 +422,12 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("downloadMediaStatus", false);
                     logCuy(
                       "Kamu mematikan fitur Download Media Status",
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Download Media Status nonaktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "sensornomor":
@@ -437,7 +437,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Sensor Nomor nonaktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "antitelpon":
@@ -447,7 +447,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Anti-telpon nonaktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   case "kickstory":
@@ -455,12 +455,12 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("autoKickStory", false);
                     logCuy(
                       "Kamu mematikan fitur auto kick tag grup di story",
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: "Auto Kick Tag Grup di Story nonaktif" },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                   default:
@@ -469,7 +469,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `Argumen tidak valid: ${arg}. Pilihan yang tersedia: autoread, autolike, dlmedia, sensornomor, kickstory dan antitelpon`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     break;
                 }
@@ -482,7 +482,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                 {
                   text: `mana argumennya ?\ncontoh ketik :\n\`#add blacklist 628123456789\`\n\nArgumen yang tersedia:\n\n\`#add blacklist nomornya\`\nuntuk menambahkan nomor ke blacklist\n\n\`#add whitelist nomornya\`\nuntuk menambahkan nomor ke whitelist\n\n\`#add emojis emojinya\`\nuntuk menambahkan emoji ke emojis`,
                 },
-                { quoted: msg }
+                { quoted: msg },
               )
             : msg.args.forEach(async (arg) => {
                 const [list, data] = arg.trim().split(" ");
@@ -494,7 +494,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `emoji harus diisi.\ncontoh ketik :\n\`#add emojis 👍\``,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     return;
                   }
@@ -504,7 +504,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `hanya boleh mengisi 1 emoji.\ncontoh ketik :\n\`#add emojis 👍\``,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     return;
                   }
@@ -513,20 +513,20 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("emojis", emojis);
                     logCuy(
                       `Kamu menambahkan emoji ${data} ke daftar emojis`,
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       {
                         text: `emoji ${data} berhasil ditambahkan ke daftar emojis`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   } else {
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: `emoji ${data} sudah ada di daftar emojis` },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   }
                 } else if (list === "blacklist") {
@@ -534,7 +534,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     "#add",
                     "menambahkan",
                     "ke",
-                    data
+                    data,
                   );
                   if (!isValid) return;
                   let displayNumber = data;
@@ -549,20 +549,20 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("blackList", blackList);
                     logCuy(
                       `Kamu menambahkan nomor ${displayNumber} ke blacklist`,
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       {
                         text: `Nomor ${displayNumber} berhasil ditambahkan ke blacklist`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   } else {
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: `Nomor ${displayNumber} sudah ada di blacklist` },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   }
                 } else if (list === "whitelist") {
@@ -570,7 +570,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     "#add",
                     "menambahkan",
                     "ke",
-                    data
+                    data,
                   );
                   if (!isValid) return;
                   let displayNumber = data;
@@ -585,20 +585,20 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("whiteList", whiteList);
                     logCuy(
                       `Kamu menambahkan nomor ${displayNumber} ke whitelist`,
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       {
                         text: `Nomor ${displayNumber} berhasil ditambahkan ke whitelist`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   } else {
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       { text: `Nomor ${displayNumber} sudah ada di whitelist` },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   }
                 } else {
@@ -607,7 +607,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     {
                       text: `Argumen tidak valid: ${arg}. Pilihan yang tersedia: blacklist, whitelist, emojis`,
                     },
-                    { quoted: msg }
+                    { quoted: msg },
                   );
                 }
               });
@@ -619,7 +619,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                 {
                   text: `mana argumennya ?\ncontoh ketik :\n\`#remove blacklist 628123456789\`\n\nArgumen yang tersedia:\n\n\`#remove blacklist nomornya\`\nuntuk menghapus nomor dari blacklist\n\n\`#remove whitelist nomornya\`\nuntuk menghapus nomor dari whitelist\n\n\`#remove emojis emojinya\`\nuntuk menghapus emoji dari daftar emojis`,
                 },
-                { quoted: msg }
+                { quoted: msg },
               )
             : msg.args.forEach(async (arg) => {
                 const [list, data] = arg.trim().split(" ");
@@ -631,7 +631,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `emoji harus diisi.\ncontoh ketik :\n\`#remove emojis 👍\``,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     return;
                   }
@@ -641,7 +641,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `hanya boleh mengisi 1 emoji.\ncontoh ketik :\n\`#remove emojis 👍\``,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     return;
                   }
@@ -651,7 +651,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `Tidak bisa menghapus emoji terakhir. Harus ada minimal satu emoji.\n\nKetik \`#info\` untuk mengecek daftar emoji yang tersedia`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                     return;
                   }
@@ -664,7 +664,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `emoji ${data} berhasil dihapus dari daftar emojis`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   } else {
                     await sock.sendMessage(
@@ -672,7 +672,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `emoji ${data} tidak ada di daftar emojis\n\nKetik \`#info\` untuk mengecek daftar emoji yang tersedia`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   }
                 } else if (list === "blacklist") {
@@ -680,7 +680,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     "#remove",
                     "menghapus",
                     "dari",
-                    data
+                    data,
                   );
                   if (!isValid) return;
                   let displayNumber = data;
@@ -695,14 +695,14 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("blackList", blackList);
                     logCuy(
                       `Kamu menghapus nomor ${displayNumber} dari blacklist`,
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       {
                         text: `Nomor ${displayNumber} berhasil dihapus dari blacklist`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   } else {
                     await sock.sendMessage(
@@ -710,7 +710,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `Nomor ${displayNumber} tidak ada di blacklist\n\nKetik \`#info\` untuk mengecek daftar nomor yang tersedia`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   }
                 } else if (list === "whitelist") {
@@ -718,7 +718,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     "#remove",
                     "menghapus",
                     "dari",
-                    data
+                    data,
                   );
                   if (!isValid) return;
                   let displayNumber = data;
@@ -733,14 +733,14 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     updateConfig("whiteList", whiteList);
                     logCuy(
                       `Kamu menghapus nomor ${displayNumber} dari whitelist`,
-                      "blue"
+                      "blue",
                     );
                     await sock.sendMessage(
                       `${loggedInNumber}@s.whatsapp.net`,
                       {
                         text: `Nomor ${displayNumber} berhasil dihapus dari whitelist`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   } else {
                     await sock.sendMessage(
@@ -748,7 +748,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                       {
                         text: `Nomor ${displayNumber} tidak ada di whitelist\n\nKetik \`#info\` untuk mengecek daftar nomor yang tersedia`,
                       },
-                      { quoted: msg }
+                      { quoted: msg },
                     );
                   }
                 } else {
@@ -757,7 +757,7 @@ SC : https://github.com/jauhariel/AutoReadStoryWhatsapp`;
                     {
                       text: `Argumen tidak valid: ${arg}. Pilihan yang tersedia: blacklist, whitelist, emojis`,
                     },
-                    { quoted: msg }
+                    { quoted: msg },
                   );
                 }
               });
@@ -836,7 +836,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
           await sock.sendMessage(
             `${loggedInNumber}@s.whatsapp.net`,
             { text: menuMessage },
-            { quoted: msg }
+            { quoted: msg },
           );
           break;
         case "viewonce":
@@ -853,7 +853,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                 {},
                 {
                   logger: pino({ level: "fatal" }),
-                }
+                },
               );
 
               await sock.sendMessage(
@@ -861,12 +861,12 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                 {
                   image: Buffer.from(buffer),
                 },
-                { quoted: msg }
+                { quoted: msg },
               );
 
               logCuy(
                 `Berhasil mengambil gambar sekali liat dari yang kamu reply`,
-                "blue"
+                "blue",
               );
 
               buffer = null;
@@ -882,7 +882,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                 {},
                 {
                   logger: pino({ level: "fatal" }),
-                }
+                },
               );
 
               await sock.sendMessage(
@@ -890,12 +890,12 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                 {
                   video: Buffer.from(buffer),
                 },
-                { quoted: msg }
+                { quoted: msg },
               );
 
               logCuy(
                 `Berhasil mengambil video sekali liat dari yang kamu reply`,
-                "blue"
+                "blue",
               );
 
               buffer = null;
@@ -911,7 +911,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                 {},
                 {
                   logger: pino({ level: "fatal" }),
-                }
+                },
               );
 
               await sock.sendMessage(
@@ -919,12 +919,12 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                 {
                   audio: Buffer.from(buffer),
                 },
-                { quoted: msg }
+                { quoted: msg },
               );
 
               logCuy(
                 `Berhasil mengambil audio sekali liat dari yang kamu reply`,
-                "blue"
+                "blue",
               );
 
               buffer = null;
@@ -934,11 +934,11 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                 {
                   text: `Pesan yang kamu reply bukan pesan yang bertipe foto, video, audio dan sekali liat`,
                 },
-                { quoted: msg }
+                { quoted: msg },
               );
               logCuy(
                 `Pesan yang kamu reply bukan pesan yang bertipe foto, video, audio dan sekali liat`,
-                "yellow"
+                "yellow",
               );
             }
           } else {
@@ -947,7 +947,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
               {
                 text: `Reply/balas pesan sekali liat dengan perintah #viewonce`,
               },
-              { quoted: msg }
+              { quoted: msg },
             );
           }
           break;
@@ -993,7 +993,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
           await sock.sendMessage(
             `${loggedInNumber}@s.whatsapp.net`,
             { text: infoMessage + listMessage },
-            { quoted: msg }
+            { quoted: msg },
           );
           break;
       }
@@ -1001,14 +1001,19 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
 
     if (autoKickStory) {
       if (msg.message.groupStatusMentionMessage && !msg.key.fromMe) {
+        console.log(msg);
         const groupId = msg.key.remoteJid;
-        const participant = msg.key.participant;
+        const participant =
+          msg.key.participantAlt && !msg.key.participantAlt.includes("@lid")
+            ? msg.key.participantAlt
+            : msg.key.participant;
 
         const groupMetadata = await sock.groupMetadata(groupId);
+        console.log(groupMetadata);
         const groupName = groupMetadata.subject;
         const botNumber = sock.user.id.split(":")[0] + "@s.whatsapp.net";
         const isAdmin = groupMetadata.participants.some(
-          (member) => member.phoneNumber === botNumber && member.admin !== null
+          (member) => member.phoneNumber === botNumber && member.admin !== null,
         );
 
         if (isAdmin) {
@@ -1020,13 +1025,13 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
               } terdeteksi tag grup di story, kamu akan dikick.`,
               mentions: [participant],
             },
-            { quoted: msg }
+            { quoted: msg },
           );
 
           await sock.groupParticipantsUpdate(groupId, [participant], "remove");
           logCuy(
             `Kamu mengeluarkan sesorang dari group ${groupName} karena telah tag grup di story.`,
-            "red"
+            "red",
           );
         } else {
           // await sock.sendMessage(
@@ -1038,7 +1043,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
           // );
           logCuy(
             `Kamu bukan admin di grup ${groupName} jadi tidak bisa kick.`,
-            "yellow"
+            "yellow",
           );
         }
       }
@@ -1047,11 +1052,11 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
     // status
     if (
       msg.key.remoteJid === "status@broadcast" &&
-      msg.key.participant !== `${loggedInNumber}@s.whatsapp.net` &&
+      msg.key.remoteJidAlt !== `${loggedInNumber}@s.whatsapp.net` &&
       autoReadStatus
     ) {
-      let senderNumber = msg.key.participant
-        ? msg.key.participant.split("@")[0]
+      let senderNumber = msg.key.remoteJidAlt
+        ? msg.key.remoteJidAlt.split("@")[0]
         : "Tidak diketahui";
       let displaySendernumber = senderNumber;
       const senderName = msg.pushName || "Tidak diketahui";
@@ -1066,13 +1071,13 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
       if (msg.message.protocolMessage) {
         logCuy(
           `Status dari ${senderName} (${displaySendernumber}) telah dihapus.`,
-          "red"
+          "red",
         );
       } else if (!msg.message.reactionMessage) {
         if (blackList.includes(senderNumber)) {
           logCuy(
             `${senderName} (${displaySendernumber}) membuat status tapi karena ada di blacklist. Status tidak akan dilihat.`,
-            "yellow"
+            "yellow",
           );
           return;
         }
@@ -1080,7 +1085,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
         if (whiteList.length > 0 && !whiteList.includes(senderNumber)) {
           logCuy(
             `${senderName} (${displaySendernumber}) membuat status tapi karena tidak ada di whitelist. Status tidak akan dilihat.`,
-            "yellow"
+            "yellow",
           );
           return;
         }
@@ -1088,14 +1093,14 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
         const myself = jidNormalizedUser(sock.user.id);
         const emojiToReact = emojis[Math.floor(Math.random() * emojis.length)];
 
-        if (msg.key.remoteJid && msg.key.participant) {
+        if (msg.key.remoteJid && msg.key.remoteJidAlt) {
           await sock.readMessages([msg.key]);
 
           if (autoLikeStatus) {
             await sock.sendMessage(
               msg.key.remoteJid,
               { react: { key: msg.key, text: emojiToReact } },
-              { statusJidList: [msg.key.participant, myself] }
+              { statusJidList: [msg.key.remoteJidAlt, myself] },
             );
           }
 
@@ -1103,7 +1108,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
             `Berhasil melihat ${
               autoLikeStatus ? "dan menyukai " : ""
             }status dari: ${senderName} (${displaySendernumber})`,
-            "green"
+            "green",
           );
 
           const targetNumber = loggedInNumber;
@@ -1132,7 +1137,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                   {},
                   {
                     logger: pino({ level: "fatal" }),
-                  }
+                  },
                 );
 
                 await sock.sendMessage(`${targetNumber}@s.whatsapp.net`, {
@@ -1165,7 +1170,7 @@ Mengambil/download foto, video, audio dari pesan sementara/sekali liat dari yang
                   {},
                   {
                     logger: pino({ level: "fatal" }),
-                  }
+                  },
                 );
 
                 await sock.sendMessage(`${targetNumber}@s.whatsapp.net`, {
